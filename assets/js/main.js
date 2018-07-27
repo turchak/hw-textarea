@@ -1,31 +1,30 @@
-let divSection = document.querySelector('div');
-let areaSection = document.querySelector('textarea');
-let divContent = document.querySelector('div').textContent;
-document.addEventListener("keydown", function(e) {
-  if (e.keyCode == 69 && e.ctrlKey) {
-    e.preventDefault();
-    console.log(document.querySelector('div').value);
+(() => {
+  const divSection = document.querySelector('div');
+  const mainSection = document.querySelector('main');
+  const areaSection = document.createElement('textarea');
 
-    divSection.parentNode.innerHTML="<textarea>"+`${divContent}`+"</textarea>";
+  const getValue = element => {
+    return element.value;
+  };
 
-  }
-});
-
-
-document.addEventListener("keydown", function(e) {
-  let areaSection = document.querySelector('textarea');
-  if (e.keyCode == 83 && e.ctrlKey) {
-    e.preventDefault();
-
-    divSection.innerHTML=myFunction();
-    areaSection.parentNode.replaceChild(divSection, areaSection);
-    divContent = document.querySelector('div').textContent;
-  } if (e.keyCode == 27) {
-    e.preventDefault();
-  areaSection.parentNode.replaceChild(divSection, areaSection);
-  }
-
-});
-function myFunction() {
-    return document.querySelector('textarea').value;
-}
+  document.addEventListener('keydown', e => {
+    if (e.keyCode == 69 && e.ctrlKey) {
+      e.preventDefault();
+      divSection.remove();
+      mainSection.appendChild(areaSection);
+    }
+  });
+  
+  document.addEventListener('keydown', e => {
+    if (e.keyCode == 83 && e.ctrlKey) {
+      e.preventDefault();
+      divSection.innerText = getValue(areaSection);
+      areaSection.remove();
+      mainSection.appendChild(divSection);
+    } 
+    if (e.keyCode == 27) {
+      e.preventDefault();
+      areaSection.parentNode.replaceChild(divSection, areaSection);
+    }
+  });
+})();
